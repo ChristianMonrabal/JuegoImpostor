@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>Juego del Impostor</title>
+
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect fill='%23ec4899' width='100' height='100'/><text x='50' y='70' font-size='80' text-anchor='middle' font-family='Arial' fill='white'>🎭</text></svg>" type="image/svg+xml">
+</head>
+<body>
+
+<div id="app">
+
+    <!-- ===== VISTA PORTADA ===== -->
+    <section class="vista activa" id="vista-portada">
+        <div class="contenedor">
+            <h1 class="titulo">Juego del Impostor</h1>
+
+            <div class="card">
+                <label>¿Cuántos jugadores?</label>
+
+                <div class="contador">
+                    <button id="menos">−</button>
+                    <span id="cantidad">3</span>
+                    <button id="mas">+</button>
+                </div>
+
+                <p class="ayuda">Mínimo 3 jugadores</p>
+
+                <label class="checkbox">
+                    <input type="checkbox" id="usarPista">
+                    El impostor tendrá pista
+                </label>
+
+                <button class="btn-principal" id="btnEmpezar">
+                    Empezar
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== VISTA NOMBRES ===== -->
+    <section class="vista" id="vista-nombres">
+        <div class="contenedor">
+            <h2 class="titulo-secundario">Nombres</h2>
+
+            <div id="lista-nombres" class="lista-nombres"></div>
+
+            <button class="btn-principal" id="btnContinuar">
+                Continuar
+            </button>
+        </div>
+    </section>
+
+    <!-- ===== VISTA CARTAS ===== -->
+    <section class="vista" id="vista-cartas">
+        <div class="contenedor">
+            <h2 id="turnoJugador" class="titulo-secundario">Jugador</h2>
+
+            <div class="carta-contenedor">
+                <div class="carta" id="carta">
+                    <div class="carta-frente">
+                        <div style="font-size: 3em; margin-bottom: 20px;">?</div>
+                        <p style="font-size: 1.1em;">👆 Arrastra hacia arriba</p>
+                    </div>
+                    <div class="carta-dorso" id="cartaDorso"></div>
+                </div>
+            </div>
+
+            <p class="contador-cartas" id="contadorCartas">1 / 1</p>
+            <button class="btn-principal" id="btnSiguienteCarta">Siguiente Jugador</button>
+        </div>
+    </section>
+
+    <!-- ===== VISTA FINAL ===== -->
+    <section class="vista" id="vista-final">
+        <div class="contenedor">
+            <button class="btn-principal" onclick="location.reload()">
+                🔄 Volver a Jugar
+            </button>
+        </div>
+    </section>
+
+</div>
+
+<script src="js/main.js"></script>
+</body>
+</html>

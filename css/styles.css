@@ -1,0 +1,263 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    width: 100%;
+    min-height: 100%;
+    font-family: system-ui, sans-serif;
+    background: #0f172a;
+    color: #f1f5f9;
+}
+
+/* ===== CONTENEDOR ===== */
+#app {
+    min-height: 100svh;
+}
+
+/* ===== VISTAS ===== */
+.vista {
+    min-height: 100svh;
+    display: none;
+    padding: 20px;
+}
+
+.vista.activa {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* ===== COMÚN ===== */
+.contenedor {
+    width: 100%;
+    max-width: 420px;
+}
+
+.titulo {
+    text-align: center;
+    font-size: 2.4em;
+    margin-bottom: 30px;
+}
+
+.titulo-secundario {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* ===== CARD ===== */
+.card {
+    background: #1e293b;
+    border-radius: 20px;
+    padding: 25px;
+}
+
+/* ===== CONTADOR ===== */
+.contador {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    margin: 15px 0;
+}
+
+.contador button {
+    width: 50px;
+    height: 50px;
+    font-size: 1.8em;
+    border-radius: 10px;
+    border: 2px solid #6366f1;
+    background: transparent;
+    color: #f1f5f9;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-weight: bold;
+}
+
+.contador button:active {
+    background: #6366f1;
+    transform: scale(0.9);
+}
+
+.contador span {
+    font-size: 1.6em;
+}
+
+/* ===== BOTONES ===== */
+.btn-principal {
+    width: 100%;
+    padding: 16px;
+    margin-top: 20px;
+    border: none;
+    border-radius: 12px;
+    font-size: 1.1em;
+    background: linear-gradient(135deg, #6366f1, #ec4899);
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 10px 20px rgba(99, 102, 241, 0.2);
+}
+
+.btn-principal:active {
+    transform: scale(0.97);
+}
+
+/* ===== CHECKBOX ===== */
+.checkbox {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 15px 0;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+.checkbox input {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    accent-color: #6366f1;
+}
+
+/* ===== AYUDA ===== */
+.ayuda {
+    font-size: 0.85em;
+    color: #cbd5e1;
+    margin-top: 8px;
+}
+
+/* ===== INPUTS ===== */
+.lista-nombres {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.lista-nombres input {
+    padding: 14px;
+    border-radius: 10px;
+    border: 2px solid #334155;
+    font-size: 1em;
+    background: #334155;
+    color: #f1f5f9;
+    transition: all 0.3s ease;
+}
+
+.lista-nombres input:focus {
+    outline: none;
+    border-color: #6366f1;
+    background: #334155;
+    box-shadow: 0 0 10px rgba(99, 102, 241, 0.3);
+}
+
+.input-nombre {
+    padding: 14px;
+    border-radius: 10px;
+    border: 2px solid #334155;
+    font-size: 1em;
+    background: #334155;
+    color: #f1f5f9;
+    transition: all 0.3s ease;
+}
+
+.input-nombre:focus {
+    outline: none;
+    border-color: #6366f1;
+    background: #334155;
+    box-shadow: 0 0 10px rgba(99, 102, 241, 0.3);
+}
+
+/* ===== CARTA ===== */
+.carta-contenedor {
+    perspective: 1000px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 350px;
+    margin-top: 20px;
+}
+
+.carta {
+    width: 100%;
+    max-width: 280px;
+    height: 350px;
+    position: relative;
+    cursor: grab;
+    touch-action: none;
+    user-select: none;
+    border-radius: 20px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    overflow: hidden;
+}
+
+.carta.grabbing {
+    cursor: grabbing;
+}
+
+.carta-frente,
+.carta-dorso {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    text-align: center;
+    transition: opacity 0.3s ease;
+    border-radius: 20px;
+}
+
+.carta-frente {
+    background: linear-gradient(135deg, #6366f1, #ec4899);
+    opacity: 1;
+    z-index: 10;
+}
+
+.carta-dorso {
+    background: linear-gradient(135deg, #8b5cf6, #ec4899);
+    opacity: 0;
+    z-index: 9;
+}
+
+.carta-dorso.visible {
+    opacity: 1;
+}
+
+.carta-frente.hidden {
+    opacity: 0;
+    z-index: 9;
+}
+
+.contador-cartas {
+    text-align: center;
+    color: #cbd5e1;
+    margin: 20px 0;
+    font-size: 0.95em;
+}
+
+.texto-carta {
+    font-size: 1.4em;
+    text-align: center;
+}
+
+/* ===== ESTILOS ADICIONALES ===== */
+.rol-impostor {
+    color: #ef4444;
+    font-weight: bold;
+}
+
+.rol-civil {
+    color: #10b981;
+    font-weight: bold;
+}
+
+.pista-texto {
+    color: #fbbf24;
+    font-size: 0.95em;
+    margin-top: 10px;
+}
