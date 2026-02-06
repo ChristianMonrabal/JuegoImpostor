@@ -7,7 +7,8 @@ let config = {
     diccionario: [],
     jugadores: [],
     palabraActual: null,
-    indiceActual: 0
+    indiceActual: 0,
+    ordenJuego: []
 };
 
 /* ===============================
@@ -101,6 +102,27 @@ document.getElementById("btnContinuar").addEventListener("click", () => {
 /* ===============================
    LÓGICA DEL JUEGO
 ================================ */
+function generarOrdenJuego() {
+    // Crear lista de índices civiles e impostores separados
+    const civiles = [];
+    const impostores = [];
+    
+    config.jugadores.forEach((j, idx) => {
+        if (j.rol === "impostor") {
+            impostores.push(idx);
+        } else {
+            civiles.push(idx);
+        }
+    });
+    
+    // Mezclar cada lista
+    civiles.sort(() => Math.random() - 0.5);
+    impostores.sort(() => Math.random() - 0.5);
+    
+    // Construir orden: civiles primero (70% de probabilidad), luego impostores
+    config.ordenJuego = Math.random() < 0.7 ? [...civiles, ...impostores] : [...impostores, ...civiles];
+}
+
 function iniciarJuego() {
     // Elegir palabra aleatoria
     const idx = Math.floor(Math.random() * config.diccionario.length);
@@ -122,6 +144,8 @@ function iniciarJuego() {
         }
     }
     
+    // Generar orden de juego
+    generarOrdenJuego();
     config.indiceActual = 0;
 }
 
@@ -136,7 +160,13 @@ const contadorText = document.getElementById("contadorCartas");
 const btnSiguiente = document.getElementById("btnSiguienteCarta");
 
 function mostrarCarta() {
-    const jugador = config.jugadores[config.indiceActual];
+    const indiceJugador = config.ordenJuego[config.indiceActual];
+    const jugador = config.jugadores[indiceJugador];
+    
+    // Reset variables y estilos
+    cartaRevelada = false;
+    currentY = 0;
+    cartaElemento.style.transform = "translateY(0)";
     
     // Reset carta al frente
     cartaFrente.classList.remove("hidden");
@@ -147,9 +177,6 @@ function mostrarCarta() {
     
     // Actualizar contador
     contadorText.textContent = `${config.indiceActual + 1} / ${config.jugadores.length}`;
-    
-    // Resetear transformación
-    cartaElemento.style.transform = "translateY(0)";
     
     // Llenar dorso con contenido
     cartaDorso.innerHTML = "";
@@ -280,6 +307,30 @@ btnSiguiente.addEventListener("click", () => {
     if (config.indiceActual < config.jugadores.length) {
         mostrarCarta();
     } else {
+        mostrarResumen();
         cambiarVista("final");
     }
 });
+
+/* ===============================
+   RESUMEN FINAL
+================================ */
+function mostrarResumen() {
+    const listaFinal = document.getElementById("lista-final");
+    if (listaFinal) {
+        listaFinal.innerHTML = "";
+        
+        // Mostrar nombres en orden de juego
+        config.ordenJuego.forEach((idx, posicion) => {
+            const j = config.jugadores[idx];
+            const div = document.createElement("div");
+            div.style.padding = "10px";
+            div.style.background = "#1e293b";
+            div.style.borderRadius = "10px";
+            div.style.marginBottom = "10px";
+            div.style.fontSize = "1.1em";
+            div.textContent = `${posicion + 1}. ${j.nombre}`;
+            listaFinal.appendChild(div);
+        });
+    }
+}
