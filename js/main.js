@@ -48,6 +48,19 @@ async function cargarDiccionario() {
 cargarDiccionario();
 
 /* ===============================
+   GUARDAR Y CARGAR NOMBRES
+================================ */
+function guardarNombres() {
+    const nombres = config.jugadores.map(j => j.nombre);
+    localStorage.setItem("jugadoresGuardados", JSON.stringify(nombres));
+}
+
+function cargarNombresGuardados() {
+    const nombresGuardados = localStorage.getItem("jugadoresGuardados");
+    return nombresGuardados ? JSON.parse(nombresGuardados) : null;
+}
+
+/* ===============================
    PORTADA
 ================================ */
 const cantidadDisplay = document.getElementById("cantidad");
@@ -71,11 +84,20 @@ document.getElementById("btnEmpezar").addEventListener("click", () => {
     const lista = document.getElementById("lista-nombres");
     lista.innerHTML = "";
     
+    // Cargar nombres guardados si existen
+    const nombresGuardados = cargarNombresGuardados();
+    
     for (let i = 0; i < config.cantidad; i++) {
         const input = document.createElement("input");
         input.type = "text";
         input.placeholder = `Jugador ${i + 1}`;
         input.className = "input-nombre";
+        
+        // Si hay nombres guardados y coincide el índice, cargarlos
+        if (nombresGuardados && i < nombresGuardados.length) {
+            input.value = nombresGuardados[i];
+        }
+        
         lista.appendChild(input);
     }
     
@@ -93,6 +115,9 @@ document.getElementById("btnContinuar").addEventListener("click", () => {
         nombre: inp.value.trim() || `Jugador ${idx + 1}`,
         rol: "civil"
     }));
+    
+    // Guardar nombres para próxima partida
+    guardarNombres();
     
     iniciarJuego();
     cambiarVista("cartas");
@@ -250,12 +275,26 @@ cartaElemento.addEventListener("touchend", () => {
     isDragging = false;
     cartaElemento.classList.remove("grabbing");
     
-    if (currentY <= 100) {
+    // Agregar transición suave para el snap
+    cartaElemento.style.transition = "transform 0.3s ease-out";
+    
+    if (currentY > 100) {
+        // Si pasó el threshold, subir completamente
+        cartaElemento.style.transform = `translateY(-350px)`;
+    } else {
+        // Si no pasó el threshold, volver a la posición inicial
         cartaElemento.style.transform = "translateY(0)";
         cartaFrente.classList.remove("hidden");
         cartaDorso.classList.remove("visible");
+        cartaRevelada = false;
     }
+    
     currentY = 0;
+    
+    // Remover transición después para que el drag sea fluido nuevamente
+    setTimeout(() => {
+        cartaElemento.style.transition = "none";
+    }, 300);
 });
 
 // Soporte para mouse (desarrollo)
@@ -290,12 +329,26 @@ document.addEventListener("mouseup", () => {
     isDragging = false;
     cartaElemento.classList.remove("grabbing");
     
-    if (currentY <= 100) {
+    // Agregar transición suave para el snap
+    cartaElemento.style.transition = "transform 0.3s ease-out";
+    
+    if (currentY > 100) {
+        // Si pasó el threshold, subir completamente
+        cartaElemento.style.transform = `translateY(-350px)`;
+    } else {
+        // Si no pasó el threshold, volver a la posición inicial
         cartaElemento.style.transform = "translateY(0)";
         cartaFrente.classList.remove("hidden");
         cartaDorso.classList.remove("visible");
+        cartaRevelada = false;
     }
+    
     currentY = 0;
+    
+    // Remover transición después para que el drag sea fluido nuevamente
+    setTimeout(() => {
+        cartaElemento.style.transition = "none";
+    }, 300);
 });
 
 /* ===============================
